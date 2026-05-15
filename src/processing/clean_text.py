@@ -24,6 +24,10 @@ VERSE_MARKER_RE = re.compile(r"\b\d+:\d+\b")
 STANDALONE_CHAPTER_RE = re.compile(
 	r"(?im)^\s*(chapter|book|section|canto|part)\s+[ivxlcdm\d]+\b\.?\s*$"
 )
+STANDALONE_LABEL_RE = re.compile(
+	r"(?im)^\s*(footnotes?|notes?|miscellaneous|translator(?:'s)?(?:\s+note)?|by the editor and translator)\s*:??\s*$"
+)
+LABEL_PREFIX_RE = re.compile(r"(?im)^\s*(translator|editor)\s*:\s*.*$")
 MULTISPACE_RE = re.compile(r"[ \t]+")
 TRAILING_SPACE_RE = re.compile(r"[ \t]+\n")
 LEADING_SPACE_RE = re.compile(r"(?m)^[ \t]+")
@@ -55,6 +59,8 @@ def remove_verse_and_chapter_markers(text: str) -> str:
 
 	text = VERSE_MARKER_RE.sub("", text)
 	text = STANDALONE_CHAPTER_RE.sub("", text)
+	text = STANDALONE_LABEL_RE.sub("", text)
+	text = LABEL_PREFIX_RE.sub("", text)
 	return text
 
 

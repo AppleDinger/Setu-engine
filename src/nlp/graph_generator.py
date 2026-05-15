@@ -1,7 +1,9 @@
+import json
+from collections import defaultdict
+from pathlib import Path
+
 import pandas as pd
 import spacy
-from collections import defaultdict
-import requests
 
 class EntityExtractionEngine:
     def __init__(self, mapping_url: str):
@@ -12,11 +14,11 @@ class EntityExtractionEngine:
         self.inject_entity_ruler()
 
     def load_and_build_registry(self, url: str):
-        """Fetches remote registry and builds a fast flat lookup map."""
-        print(f"Syncing Identity Registry from: {url}")
-        response = requests.get(url)
-        response.raise_for_status()
-        registry_data = response.json()
+        """Loads the local registry file and builds a fast flat lookup map."""
+        registry_path = Path(url)
+        print(f"Syncing Identity Registry from: {registry_path}")
+        with open(registry_path, "r", encoding="utf-8") as handle:
+            registry_data = json.load(handle)
         
         self.rules = []
         for entity in registry_data.get("entities", []):

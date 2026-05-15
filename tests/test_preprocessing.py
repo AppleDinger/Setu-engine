@@ -12,6 +12,9 @@ def test_pipeline():
     mock_raw_text = """
     *** START OF THE PROJECT GUTENBERG EBOOK MOCK ***
     [Translator Note: This is a footnote that should disappear.]
+    Footnotes
+    Translator: Sir Edwin Arnold
+    By the editor and translator
     Chapter I.
     1:1 In the beginning, Dhananjaya rode his chariot into the fray.
     1:2 Krishna stood beside him as they faced the opposing ranks.
@@ -26,6 +29,8 @@ def test_pipeline():
     assert "START OF THE PROJECT" not in cleaned, "Failed to strip Gutenberg Header"
     assert "END OF THE PROJECT" not in cleaned, "Failed to strip Gutenberg Footer"
     assert "Translator Note" not in cleaned, "Failed to remove bracketed footnotes"
+    assert "Footnotes" not in cleaned, "Failed to remove standalone footnote labels"
+    assert "Sir Edwin Arnold" not in cleaned, "Failed to remove translator/editor header labels"
     assert "1:1" not in cleaned and "1:2" not in cleaned, "Failed to strip verse markers"
     assert "Chapter I." not in cleaned, "Failed to strip standalone chapter headings"
     print("✅ All Regex Normalization rules passed.\n")

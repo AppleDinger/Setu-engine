@@ -1,9 +1,13 @@
 import os
+from pathlib import Path
 import pandas as pd
 import networkx as pd  # We will use networkx for analytics next
 import networkx as nx
 from processing.clean_text import clean_text_file
 from nlp.graph_generator import EntityExtractionEngine, generate_edge_list
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+REGISTRY_PATH = PROJECT_ROOT / "alias mapping" / "mapping.json"
 
 def run_cultural_pipeline(book_name: str, raw_filename: str):
     print(f"\n==================================================")
@@ -29,8 +33,7 @@ def run_cultural_pipeline(book_name: str, raw_filename: str):
     print(f"Cleaned text saved to {cleaned_path}")
 
     # 3. Phase 3: Matrix Processing & Edge Generation
-    REGISTRY_URL = "https://raw.githubusercontent.com/AppleDinger/Setu-dataset/main/registry/mapping.json"
-    engine = EntityExtractionEngine(REGISTRY_URL)
+    engine = EntityExtractionEngine(str(REGISTRY_PATH))
     
     # Run the full scaling pass (using standard 100-word window, 25-word stride)
     df_edges = generate_edge_list(cleaned_text, engine, window_size=100, stride=25)

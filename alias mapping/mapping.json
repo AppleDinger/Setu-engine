@@ -1,0 +1,1363 @@
+{
+  "entities": [
+    {
+      "canonical_name": "Arjuna",
+      "aliases": [
+        "Dhananjaya",
+        "Partha",
+        "Savyasachi",
+        "Son of Kunti",
+        "Phalguni"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Vishnu",
+      "aliases": [
+        "Vishṇu",
+        "Visnu",
+        "the Blessed Viṣṇu"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Krishna",
+      "aliases": [
+        "Vasudeva",
+        "Kesava",
+        "Narayana",
+        "Govinda",
+        "Madhava",
+        "Keśava",
+        "Mâdhava",
+        "Nârâyaṇa",
+        "Hari",
+        "Janārddana",
+        "Vāsudeva"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Ráma",
+      "aliases": [
+        "O Ráma",
+        "Ramachandra",
+        "Rama"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Drona",
+      "aliases": [
+        "Dronacharya",
+        "Bharadwaja",
+        "Son of Bharadwaja"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Karna",
+      "aliases": [
+        "Radheya",
+        "Vaikartana",
+        "Sutaputra",
+        "Angaraja"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Bhima",
+      "aliases": [
+        "Bhimasena",
+        "Vrikodara",
+        "Son of Pandu"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Yudhishthira",
+      "aliases": [
+        "Dharmaraja",
+        "Ajatashatru",
+        "Dharmaputra"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Duryodhana",
+      "aliases": [
+        "Suyodhana"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Indra",
+      "aliases": [
+        "Sakra",
+        "Purandara",
+        "Vritrahan",
+        "O Indra",
+        "May Indra",
+        "O Maghavan",
+        "Satakratu"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Draupadi",
+      "aliases": [
+        "Panchali",
+        "Yajnaseni",
+        "Krishnaa"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Nakula",
+      "aliases": [
+        "Son of Madri"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Dhrishtadyumna",
+      "aliases": [
+        "Drafta"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Sanjaya",
+      "aliases": [
+        "Gavalgana"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Pandu",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Yama",
+      "aliases": [
+        "Dharmadeva",
+        "Yáma"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Ganga",
+      "aliases": [
+        "Bhagirathi",
+        "Gangá"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Garuḍa",
+      "aliases": [
+        "Târkṣya",
+        "O Târkṣya",
+        "O Târkshya",
+        "Târkshya"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Chitragupta",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Brahmâ",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Śiva",
+      "aliases": [
+        "Rudra",
+        "Hara",
+        "Shiva",
+        "Sankara"
+      ],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Gautama",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Ajâmila",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Sagara",
+      "aliases": ["Sagar"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Sanjivaka",
+      "aliases": ["Saajivaka"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Pingalaka",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Karataka",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Mantharaka",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Hiranyaka",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Laghupatanaka",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Damanaka",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Dharmabuddhi",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Chakradhara",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Dantila",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Arimaradana",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Suvaranasiddhi",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Chitragreeva",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Gorambha",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Dev Sharma",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Papabuddhi",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Bhasuraka",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Guptadhana",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Jambu",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Vararuchi",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Jveernadhana",
+      "aliases": ["jveernadhana"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Kapinjala",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Mandavishya",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Kukudruma",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Yadbhavishya",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Shatabuddhi",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Madotkata",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Anagatavidhata",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Tamrachuda",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Meghavarana",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Sahasrabuddhi",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Kamadeva",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Somilaka",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Chandra",
+      "aliases": ["Chandrama"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Prakarakarna",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Ashadhbhuti",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Shami",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Sítá",
+      "aliases": ["Maithil", "Sita"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Raghu",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Báli",
+      "aliases": ["Vali"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Kaikeyí",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Hanumán",
+      "aliases": ["Hanúmán", "Hanuman"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Angad",
+      "aliases": ["Angada"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Vibhishaṇ",
+      "aliases": ["Vibhishana"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Janak",
+      "aliases": ["Janaka"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Sumitrá",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Ikshváku",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Márícha",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Tárá",
+      "aliases": ["Tara"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Guha",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Kumbhakarṇa",
+      "aliases": ["Kumbhakarna"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Khara",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Níla",
+      "aliases": ["Nila"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Kaśyap",
+      "aliases": ["Kashyapa"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Lakshmaṇ",
+      "aliases": ["Lakshmana"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Daśaratha",
+      "aliases": ["Dasharatha"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Agastya",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Mahendra",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Mitra",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Asvins",
+      "aliases": ["Nasatyas"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Surya",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Varuna",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Aditi",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Vayu",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Brhaspati",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Agni",
+      "aliases": ["Jatavedas", "Vaisvanara"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Tvastar",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Atri",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Soma",
+      "aliases": ["Soma Pavamana", "Indu"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Bhaga",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Angiras",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Aryaman",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Kanva",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Matarisvan",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Parjanya",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Vivasvan",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Maitreya",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Prahlāda",
+      "aliases": ["Prahlada"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Parāçara",
+      "aliases": ["Parashara"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Akrura",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Kali",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Dhruva",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Devaki",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Vasishtha",
+      "aliases": ["Vashistha"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Vasudeva_Anakadundubhi",
+      "aliases": ["Vasudeva"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Balarāma",
+      "aliases": ["Balabhadra", "Balarama"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Vyāsa",
+      "aliases": ["Vyasa", "Veda Vyasa"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Bhrigu",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Ribhu",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Kapila",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Khāndikya",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Daksha",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Rukmini",
+      "aliases": [],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Sachi",
+      "aliases": ["Indrani"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Naraka",
+      "aliases": ["Narakasura"],
+      "culture": "Indic"
+    },
+    {
+      "canonical_name": "Muhammad",
+      "aliases": [
+        "Prophet",
+        "His Apostle",
+        "Mahomet"
+      ],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Zaid",
+      "aliases": [
+        "Zayd ibn Harithah"
+      ],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Shoaib",
+      "aliases": [
+        "Shu'ayb"
+      ],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Saleh",
+      "aliases": [
+        "Salih"
+      ],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Omar",
+      "aliases": [
+        "Umar ibn al-Khattab"
+      ],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Satan",
+      "aliases": [
+        "Eblis",
+        "Iblis"
+      ],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Yahweh",
+      "aliases": [
+        "Elohim",
+        "Adonai",
+        "Jehovah",
+        "The Lord"
+      ],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Jehudah",
+      "aliases": ["Jehudah", "Yehudah", "Judah"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Johanan",
+      "aliases": ["Johanan", "Yochanan"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Simeon",
+      "aliases": ["Simeon", "Shimon"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Akiva",
+      "aliases": ["Akiva", "Aqiba", "Akiba"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Jose",
+      "aliases": ["Jose", "Yose", "Yosef"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Eliezer",
+      "aliases": ["Eliezer"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Abayi",
+      "aliases": ["Abayi", "Abbi"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Rabha",
+      "aliases": ["Rabha"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Rabba",
+      "aliases": ["Rabba"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Huna",
+      "aliases": ["Huna"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Meir",
+      "aliases": ["Meir", "Meir the Sage"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Samuel",
+      "aliases": ["Samuel", "Shmuel"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Resh Lakish",
+      "aliases": ["Resh Lakish", "Resh-Lakish"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Papa",
+      "aliases": ["Papa", "R. Papa"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Hyya",
+      "aliases": ["Hyya", "Hiyya"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Nahman",
+      "aliases": ["Nahman", "Na'hman"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Hisda",
+      "aliases": ["Hisda"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Ashi",
+      "aliases": ["Ashi"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Elazar",
+      "aliases": ["Elazar", "El'azar", "Eleazar"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Nathan",
+      "aliases": ["Nathan"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Gamaliel",
+      "aliases": ["Gamaliel"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Ula",
+      "aliases": ["Ula"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "David",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Jesus",
+      "aliases": ["Jesus Christ", "Yeshua", "Isa"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Moses",
+      "aliases": ["Musa"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Saul",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Aaron",
+      "aliases": ["Harun"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Solomon",
+      "aliases": ["Sulayman"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Jacob",
+      "aliases": ["Israel", "Yaqoub"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Joseph",
+      "aliases": ["Yusuf"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Abraham",
+      "aliases": ["Abram", "Ibrahim"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Pharaoh",
+      "aliases": ["Fir'awn"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Joshua",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Paul",
+      "aliases": ["Saul of Tarsus"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Peter",
+      "aliases": ["Simon Peter", "Cephas"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Benjamin",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Isaac",
+      "aliases": ["Ishaq"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Jeremiah",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Ephraim",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "John",
+      "aliases": ["Yahya"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Jonathan",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Absalom",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Hezekiah",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Joab",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Ammon",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Ahab",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Edom",
+      "aliases": ["Esau"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Moab",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Dan",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Levi",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Elijah",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Balaam",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Elisha",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Mordecai",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Simon",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Esther",
+      "aliases": ["Hadassah"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Noah",
+      "aliases": ["Nuh"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Haman",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Rehoboam",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Nebuchadnezzar",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Joash",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Jeroboam",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Rachel",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Jesse",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Jehu",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Adam",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Eve",
+      "aliases": ["Hawa"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Cain",
+      "aliases": ["Qabil"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Abel",
+      "aliases": ["Habil"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Gideon",
+      "aliases": ["Jerubbaal"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Samson",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Ruth",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Job",
+      "aliases": ["Ayyub"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Mary",
+      "aliases": ["Maryam"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Gabriel",
+      "aliases": ["Jibril"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Zacharias",
+      "aliases": ["Zakariya"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Ishmael",
+      "aliases": ["Ismael"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Herod",
+      "aliases": ["Herod the Great"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Alexander",
+      "aliases": ["Alexander the Great"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Caligula",
+      "aliases": ["Caius"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Agrippa",
+      "aliases": ["Herod Agrippa"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Antipater",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Judas",
+      "aliases": ["Judas Maccabeus"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Archelaus",
+      "aliases": ["Herod Archelaus"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Augustus Caesar",
+      "aliases": ["Cæsar"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Mark Antony",
+      "aliases": ["Antony", "Antonius"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Ptolemy",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Flavius Josephus",
+      "aliases": ["Josephus"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Demetrius",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Cleopatra",
+      "aliases": ["Cleopatra VII"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Claudius",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Izates",
+      "aliases": ["Izates II"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Darius",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Alexandra",
+      "aliases": ["Salome Alexandra"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Tiberius",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Pheroras",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Philip",
+      "aliases": ["Herod Philip"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Titus",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Gessius Florus",
+      "aliases": ["Florus"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Cestius Gallus",
+      "aliases": ["Cestius"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Malichus",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Antonia",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Aulus Gabinius",
+      "aliases": ["Gabinius"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Gaius Cassius Longinus",
+      "aliases": ["Cassius"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Marcus Antonius Felix",
+      "aliases": ["Felix"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Herod Antipas",
+      "aliases": ["Antipas"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Placidus",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Matthias",
+      "aliases": ["Matthew"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Antiochus",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Marcus Aemilius Scaurus",
+      "aliases": ["Scaurus"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Bernice",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Sarah",
+      "aliases": ["Sarai"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Michael",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Ahasuerus",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Rebekah",
+      "aliases": ["Rebecca"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Miriam",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Jethro",
+      "aliases": ["Reuel", "Hobab"],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Enoch",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Reuben",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Shem",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Balak",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Korah",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Phinehas",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Leah",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Haran",
+      "aliases": [],
+      "culture": "Abrahamic"
+    },
+    {
+      "canonical_name": "Potiphar",
+      "aliases": [],
+      "culture": "Abrahamic"
+    }
+  ]
+}

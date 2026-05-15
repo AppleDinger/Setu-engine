@@ -36,7 +36,6 @@ TEXT_SOURCES: list[dict[str, str | int]] = [
     {"id": 1494, "name": "Legends of the Jews, Vol. 2", "filename": "legends_of_the_jews_v2_raw.txt", "cluster": "levantine_semitic"},
     {"id": 2881, "name": "Legends of the Jews, Vol. 3", "filename": "legends_of_the_jews_v3_raw.txt", "cluster": "levantine_semitic"},
     {"id": 2882, "name": "Legends of the Jews, Vol. 4", "filename": "legends_of_the_jews_v4_raw.txt", "cluster": "levantine_semitic"},
-    {"id": 7793, "name": "The Book of Enoch", "filename": "book_of_enoch_raw.txt", "cluster": "levantine_semitic"},
 ]
 
 

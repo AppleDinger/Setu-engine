@@ -1,16 +1,19 @@
 import json
+from pathlib import Path
 import spacy
-import requests
 
-def load_remote_registry(url):
-    """Fetches the identity registry JSON file directly from GitHub."""
-    print(f"Fetching registry from remote storage: {url}")
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+REGISTRY_PATH = PROJECT_ROOT / "alias mapping" / "mapping.json"
+
+def load_local_registry(path):
+    """Fetches the identity registry JSON file from the local project root."""
+    print(f"Fetching registry from local storage: {path}")
     try:
-        response = requests.get(url)
-        response.raise_for_status()  # Throws an exception for 4xx or 5xx errors
-        return response.json()
+        with open(path, encoding="utf-8") as handle:
+            return json.load(handle)
     except Exception as e:
-        raise RuntimeError(f"Network error fetching registry: {e}")
+        raise RuntimeError(f"Local registry error: {e}")
 
 def build_alias_map(registry_data):
     """
@@ -35,13 +38,10 @@ def test_resolution():
     print("Loading NLP model...")
     nlp = spacy.load("en_core_web_md")
     
-    # 2. Public Raw GitHub URL for your dataset mapping file
-    raw_github_url = "https://raw.githubusercontent.com/AppleDinger/Setu-dataset/main/registry/mapping.json"
-    
     try:
-        registry_data = load_remote_registry(raw_github_url)
+        registry_data = load_local_registry(REGISTRY_PATH)
         alias_lookup = build_alias_map(registry_data)
-        print("Registry successfully loaded from GitHub and mapped.")
+        print("Registry successfully loaded from local mapping.json and mapped.")
     except Exception as e:
         print(f"Error loading registry: {e}")
         print("\nFalling back to an in-memory mock registry for testing...")

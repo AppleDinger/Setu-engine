@@ -1,5 +1,6 @@
 import sys
 import os
+from pathlib import Path
 import pandas as pd
 
 # Ensure the src folder is in the system path
@@ -7,17 +8,18 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src'
 
 from nlp.graph_generator import EntityExtractionEngine, generate_edge_list
 
+    PROJECT_ROOT = Path(__file__).resolve().parents[1]
+    REGISTRY_PATH = PROJECT_ROOT / "alias mapping" / "mapping.json"
+
 def test_matrix_generation():
     print("Executing Phase 3 Extraction Matrix Verification Suite...\n")
     
     # Path to your schema registry
-    REGISTRY_URL = "https://raw.githubusercontent.com/AppleDinger/Setu-dataset/main/registry/mapping.json"
-    
     # 1. Initialize the custom validation engine
     try:
-        extractor = EntityExtractionEngine(REGISTRY_URL)
+        extractor = EntityExtractionEngine(str(REGISTRY_PATH))
     except Exception as e:
-        print(f"❌ Failed to reach network registry: {e}")
+        print(f"❌ Failed to load local registry: {e}")
         return
 
     # 2. Controlled mock narrative design
