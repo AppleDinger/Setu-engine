@@ -1,9 +1,16 @@
 import os
+import sys
 from pathlib import Path
 import pandas as pd
 import networkx as nx
 from src.processing.clean_text import clean_text
 from src.nlp.graph_generator import EntityExtractionEngine, generate_edge_list
+
+
+for stream_name in ("stdout", "stderr"):
+    stream = getattr(sys, stream_name, None)
+    if stream is not None and hasattr(stream, "reconfigure"):
+        stream.reconfigure(encoding="utf-8", errors="replace")
 
 # 1. Absolute location of the engine repository root (Setu/Setu-engine)
 ENGINE_ROOT = Path(__file__).resolve().parent   
@@ -13,6 +20,42 @@ REGISTRY_PATH = ENGINE_ROOT / "alias mapping" / "mapping.json"
 
 # 3. Path to your side-by-side licensing dataset repo (Setu/Setu-dataset)
 DATASET_ROOT = ENGINE_ROOT.parent / "Setu-dataset"
+
+# Keep the co-occurrence graph readable by default.
+WINDOW_SIZE = 80
+STRIDE = 80
+MIN_EDGE_WEIGHT = 3
+MAX_NEIGHBORS_PER_NODE = 6
+
+
+def prune_edges_for_legibility(df_edges: pd.DataFrame) -> pd.DataFrame:
+    """Keep only the strongest edges so the exported graph stays readable."""
+
+    if df_edges.empty:
+        return df_edges
+
+    df_pruned = df_edges[df_edges["Weight"] >= MIN_EDGE_WEIGHT].copy()
+    if df_pruned.empty:
+        return df_pruned
+
+    kept_indices: set[int] = set()
+
+    for node_col, other_col in (("Source", "Target"), ("Target", "Source")):
+        ranked = (
+            df_pruned.sort_values([node_col, "Weight", "Source", "Target"], ascending=[True, False, True, True])
+            .groupby(node_col, sort=False)
+            .head(MAX_NEIGHBORS_PER_NODE)
+        )
+        kept_indices.update(ranked.index.tolist())
+
+    df_pruned = (
+        df_pruned.loc[sorted(kept_indices)]
+        .drop_duplicates(subset=["Source", "Target"], keep="first")
+        .sort_values(["Weight", "Source", "Target"], ascending=[False, True, True])
+        .reset_index(drop=True)
+    )
+
+    return df_pruned
 
 
 def process_cultural_macro_graph(culture_name: str, raw_filenames: list[str]):
@@ -68,19 +111,43 @@ def process_cultural_macro_graph(culture_name: str, raw_filenames: list[str]):
     # 5. Entity Extraction Matrix Loop
     engine = EntityExtractionEngine(str(REGISTRY_PATH))
     print("Pipeline status: ENTITY EXTRACTION INITIALIZED")
-    df_edges = generate_edge_list(master_cleaned_text, engine, window_size=100, stride=25)
+    df_edges = generate_edge_list(master_cleaned_text, engine, window_size=WINDOW_SIZE, stride=STRIDE)
     
     if df_edges.empty:
         print(f"⚠️ Warning: No edges generated for {culture_name}. Check mapping coverage.")
         print(f"Pipeline status: COMPLETED WITH NO EDGES for {culture_name}")
         return
-        
+
+    df_edges = prune_edges_for_legibility(df_edges)
+
+    if df_edges.empty:
+        print(f"⚠️ Warning: All candidate edges were filtered out for {culture_name}.")
+        print(f"Pipeline status: COMPLETED WITH NO EDGES for {culture_name}")
+        return
+
     df_edges.to_csv(edges_output, index=False)
-    print(f"📦 Combined Edge Matrix exported successfully: {edges_output}")
+    print(
+        f"📦 Pruned Edge Matrix exported successfully: {edges_output} "
+        f"(min_weight={MIN_EDGE_WEIGHT}, max_neighbors_per_node={MAX_NEIGHBORS_PER_NODE})"
+    )
 
     # 6. Compute Network Metrics via NetworkX
     print("Building Graph Objects for Structural Topology...")
-    G = nx.from_pandas_edgelist(df_edges, source="Source", target="Target", edge_attr="Weight")
+    
+    # Step A: Capture the absolute master pool of unique nodes BEFORE filtering
+    master_nodes = set(df_edges["Source"]).union(set(df_edges["Target"]))
+    print(f"Master node registry contains {len(master_nodes)} unique entities.")
+    
+    # Step B: Initialize an empty Graph object and explicitly force the master node pool
+    G = nx.Graph()
+    G.add_nodes_from(master_nodes)
+    
+    # Step C: Append the pruned edges to the graph
+    G.add_edges_from(zip(df_edges["Source"], df_edges["Target"]))
+    
+    # Re-apply edge attributes for centrality calculations
+    for _, row in df_edges.iterrows():
+        G[row["Source"]][row["Target"]]["Weight"] = row["Weight"]
     
     print("Computing Centrality Vectors...")
     degree_centrality = nx.degree_centrality(G)
@@ -112,11 +179,11 @@ def process_cultural_macro_graph(culture_name: str, raw_filenames: list[str]):
             "DegreeCentrality": degree_centrality.get(node, 0),
             "BetweennessCentrality": betweenness_centrality.get(node, 0),
             "EigenvectorCentrality": eigenvector_centrality.get(node, 0),
-            "CommunityID": community_map.get(node, 0)
+            "CommunityID": f"Faction_{community_map.get(node, 0)}"
         })
         
-    df_nodes = pd.DataFrame(node_data)
-    df_nodes.to_csv(nodes_output, index=False)
+    df_nodes_output = pd.DataFrame(node_data)
+    df_nodes_output.to_csv(nodes_output, index=False)
     print(f"📦 Consolidated Node Sheet exported successfully: {nodes_output}")
     
     nx.write_gexf(G, gexf_output)

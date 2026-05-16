@@ -12,10 +12,10 @@ except ImportError:  # pragma: no cover - optional dependency
     torch = None
 
 # For GPU runs, install the matching spaCy CUDA build first:
-# pip install "spacy[cuda12x]"  # or the CUDA extra that matches your environment.
-SPACY_GPU_PREFERRED = spacy.prefer_gpu()
-SPACY_BATCH_SIZE = 2000 if SPACY_GPU_PREFERRED else 256
-SPACY_RUNTIME_MODE = "GPU" if SPACY_GPU_PREFERRED else "CPU"
+# pip install "spacy[cuda13x]" cupy-cuda13x torch  # or the CUDA extra that matches your environment.
+SPACY_GPU_ACTIVE = spacy.prefer_gpu()
+SPACY_BATCH_SIZE = 2000 if SPACY_GPU_ACTIVE else 256
+SPACY_RUNTIME_MODE = "GPU" if SPACY_GPU_ACTIVE else "CPU"
 USE_STATISTICAL_NER = False
 
 
@@ -65,6 +65,7 @@ class EntityExtractionEngine:
             f"(batch_size={SPACY_BATCH_SIZE}, ner_enabled={USE_STATISTICAL_NER})"
         )
         print(f"CUDA runtime status: {get_torch_cuda_status()}")
+        print(f"spaCy GPU active: {'YES' if SPACY_GPU_ACTIVE else 'NO, using CPU fallback'}")
         print(f"spaCy pipeline status: {'READY' if self.pipeline_ready else 'NOT READY'}")
 
     def load_and_build_registry(self, url: str):
@@ -125,7 +126,7 @@ class EntityExtractionEngine:
 
         return found_entities
 
-def generate_edge_list(text: str, engine: EntityExtractionEngine, window_size=100, stride=25) -> pd.DataFrame:
+def generate_edge_list(text: str, engine: EntityExtractionEngine, window_size=40, stride=40) -> pd.DataFrame:
     """Iterates over text windows, extracts entities, and tabulates weighted edges."""
     from src.processing.clean_text import sliding_window_words
     
@@ -138,7 +139,7 @@ def generate_edge_list(text: str, engine: EntityExtractionEngine, window_size=10
         f"Streaming windows through spaCy.pipe with batch_size={SPACY_BATCH_SIZE} "
         f"and disabled_components={disabled_components}"
     )
-    print(f"GPU detected: {'YES' if SPACY_GPU_PREFERRED else 'NO, using CPU'}")
+    print(f"GPU detected: {'YES' if SPACY_GPU_ACTIVE else 'NO, using CPU'}")
     print(f"Fast pipeline mode: {'NO' if USE_STATISTICAL_NER else 'YES - entity ruler only'}")
 
     processed_windows = 0

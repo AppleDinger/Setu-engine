@@ -5,6 +5,7 @@ networkx>=3.0
 python-louvain>=0.16
 scipy>=1.11.0
 torch>=2.3.0
+cupy-cuda13x>=14.0.1
 fastapi>=0.100.0
 uvicorn[standard]>=0.22.0
 python-multipart>=0.0.6
@@ -13,4 +14,4 @@ requests>=2.31.0
 tqdm>=4.65.0
 pytest>=7.0.0
 # For spaCy GPU acceleration, install the matching CUDA build for your system.
-# Example: spacy[cuda12x]>=3.7.0
+# Example: spacy[cuda13x]>=3.8.0

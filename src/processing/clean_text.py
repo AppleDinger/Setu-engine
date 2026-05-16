@@ -12,7 +12,7 @@ import re
 
 
 GUTENBERG_START_RE = re.compile(
-	r"\*\*\*\s*START OF THE PROJECT GUTENBERG EBOOK.*?\*\*\*",
+	r"(?:\*\*\*\s*)?START OF(?: THE)? PROJECT GUTENBERG EBOOK.*?(?:\*\*\*|$)",
 	re.IGNORECASE | re.DOTALL,
 )
 GUTENBERG_END_RE = re.compile(
@@ -21,6 +21,30 @@ GUTENBERG_END_RE = re.compile(
 )
 BRACKETED_NOTE_RE = re.compile(r"\[.*?\]")
 VERSE_MARKER_RE = re.compile(r"\b\d+:\d+\b")
+CONTENT_START_RE = re.compile(
+	r"(?i)^\s*(?:"
+	r"(?:chapter|book|section|canto|part|sura|surah)\s+[ivxlcdm\d]+\.?\s*|"
+	r"(?:epistle|gospel|psalm|psalms|genesis|exodus|leviticus|numbers|deuteronomy|joshua|judges|ruth|samuel|kings|chronicles|ezra|nehemiah|esther|job|proverbs|ecclesiastes|song of solomon|isaiah|jeremiah|lamentations|ezekiel|daniel|hosea|joel|amos|obadiah|jonah|micah|nahum|habakkuk|zephaniah|haggai|zechariah|malachi|matthew|mark|luke|john|acts|romans|corinthians|galatians|ephesians|philippians|colossians|thessalonians|timothy|titus|philemon|hebrews|james|peter|jude|revelation)\s*$|"
+	r"\d+:\d+"
+	r")\b.*$"
+)
+FRONT_MATTER_LINE_RE = re.compile(
+	r"(?i)^\s*(?:"
+	r"\*\*\*\s*start of(?: the)? project gutenberg ebook.*|"
+	r"project gutenberg ebook.*|"
+	r"copyright laws are changing.*|"
+	r"this header should be the first thing seen.*|"
+	r"please read the [\"']legal small print[\"'].*|"
+	r"welcome to the world of free plain vanilla electronic texts.*|"
+	r"ebooks readable by both humans and by computers.*|"
+	r"these ebooks were prepared by thousands of volunteers.*|"
+		"sura number.*|chapter number.*|book number.*|table of contents.*|"
+	r"title:.*|release date:.*|last updated:.*|language:.*|character set encoding:.*|edition:.*|translator:.*|editor:.*|produced by.*|"
+	r"preface\b.*|foreword\b.*|introduction\b.*|contents\b.*|index\b.*|table of contents\b.*|"
+	r"by the editor and translator\b.*|"
+	r"[0-9]+\s+[0-9]+\s+.*"
+	r")\s*$"
+)
 STANDALONE_CHAPTER_RE = re.compile(
 	r"(?im)^\s*(chapter|book|section|canto|part)\s+[ivxlcdm\d]+\b\.?\s*$"
 )
@@ -46,6 +70,34 @@ def strip_gutenberg_boilerplate(text: str) -> str:
 		text = text[:end_match.start()]
 
 	return text
+
+
+def strip_leading_front_matter(text: str) -> str:
+	"""Drop title pages, tables of contents, and similar leading boilerplate."""
+
+	lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+	content_start_index = None
+
+	for index, line in enumerate(lines):
+		stripped_line = line.strip()
+		if not stripped_line:
+			continue
+
+		if FRONT_MATTER_LINE_RE.match(stripped_line):
+			continue
+
+		if CONTENT_START_RE.match(stripped_line):
+			content_start_index = index
+			break
+
+		# Title pages and tables of contents are usually short, title-cased, and
+		# lack sentence punctuation, so keep skipping them until real content.
+		continue
+
+	if content_start_index is None:
+		return text
+
+	return "\n".join(lines[content_start_index:])
 
 
 def remove_bracketed_notes(text: str) -> str:
@@ -79,6 +131,7 @@ def clean_text(text: str) -> str:
 	"""Apply the standard cleaning pipeline for the raw corpus."""
 
 	cleaned_text = strip_gutenberg_boilerplate(text)
+	cleaned_text = strip_leading_front_matter(cleaned_text)
 	cleaned_text = remove_bracketed_notes(cleaned_text)
 	cleaned_text = remove_verse_and_chapter_markers(cleaned_text)
 	cleaned_text = normalize_whitespace(cleaned_text)

@@ -8,8 +8,18 @@ from processing.clean_text import clean_text, sliding_window_words
 def test_pipeline():
     print("Executing Preprocessing Verification Suite...\n")
     
-    # Mock messy string representing Project Gutenberg noise
+    # Mock messy string representing Project Gutenberg noise and front matter
     mock_raw_text = """
+    The Project Gutenberg EBook of Mock Text
+
+    Copyright laws are changing all over the world.
+
+    Title: Mock Text
+
+    Preface
+
+    Introduction
+
     *** START OF THE PROJECT GUTENBERG EBOOK MOCK ***
     [Translator Note: This is a footnote that should disappear.]
     Footnotes
@@ -20,12 +30,27 @@ def test_pipeline():
     1:2 Krishna stood beside him as they faced the opposing ranks.
     *** END OF THE PROJECT GUTENBERG EBOOK MOCK ***
     """
+
+    mock_toc_text = """
+    Sura Number (this edition) Sura Number (Arabic text) Title
+
+    1    96      Thick Blood or Clots of Blood
+    2    74      The Enwrapped
+
+    3    73      The Enfolded
+
+    Chapter I.
+    1:1 In the beginning, the text finally starts.
+    """
     
     # 1. Test Data Normalization
     cleaned = clean_text(mock_raw_text)
     print("--- 1. Regex Cleaning Test ---")
     print(f"Cleaned Text Output:\n\"{cleaned}\"\n")
     
+    assert "Project Gutenberg" not in cleaned, "Failed to strip Gutenberg front matter"
+    assert "Preface" not in cleaned, "Failed to strip preface front matter"
+    assert "Introduction" not in cleaned, "Failed to strip introduction front matter"
     assert "START OF THE PROJECT" not in cleaned, "Failed to strip Gutenberg Header"
     assert "END OF THE PROJECT" not in cleaned, "Failed to strip Gutenberg Footer"
     assert "Translator Note" not in cleaned, "Failed to remove bracketed footnotes"
@@ -34,6 +59,12 @@ def test_pipeline():
     assert "1:1" not in cleaned and "1:2" not in cleaned, "Failed to strip verse markers"
     assert "Chapter I." not in cleaned, "Failed to strip standalone chapter headings"
     print("✅ All Regex Normalization rules passed.\n")
+
+    cleaned_toc = clean_text(mock_toc_text)
+    assert "Sura Number" not in cleaned_toc, "Failed to strip table-of-contents style front matter"
+    assert "Thick Blood or Clots of Blood" not in cleaned_toc, "Failed to strip front-matter table rows"
+    assert "1:1" not in cleaned_toc, "Failed to remove verse markers after front matter"
+    assert "the text finally starts" in cleaned_toc, "Removed actual body text when stripping front matter"
     
     # 2. Test Sliding Window Logic
     print("--- 2. Sliding Window Structural Test ---")
