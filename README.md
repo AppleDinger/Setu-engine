@@ -115,6 +115,9 @@ These checks cover text cleaning, sliding-window behavior, and edge aggregation 
 
 The file `alias mapping/mapping.json` is the main identity registry. It maps variant spellings and aliases to one canonical figure so the graph does not split the same person across multiple nodes.
 
+### Faction Resolution
+The file faction_resolution.py is used to merge factions identified by Louvain into more cohesive groups for data analysis
+
 ## Project Purpose
 
 This engine was built to compare social networks inside Indic and Abrahamic books by converting narrative co-occurrence into graph structure. The analysis focuses on how often entities appear together, which figures become central, how communities form, and whether one tradition shows different connectivity patterns than the other.

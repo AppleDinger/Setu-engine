@@ -1,36 +1,138 @@
 import os
-import sys
-from pathlib import Path
+import re
+import json
 import pandas as pd
 import networkx as nx
-from src.processing.clean_text import clean_text
-from src.nlp.graph_generator import EntityExtractionEngine, generate_edge_list
+import community as community_louvain
 
+# Define Core Corpus Configurations
+# Updated paths relative to your script running inside the "Setu-engine" folder
+INDIC_BOOKS = [
+    "../Setu-dataset/raw/rig-veda-griffith-p.txt",
+    "../Setu-dataset/raw/Panchatantra.txt",
+    "../Setu-dataset/raw/mahabharata.txt",
+    "../Setu-dataset/raw/ramayana_raw.txt",
+    "../Setu-dataset/raw/bhagavad_gita_raw.txt",
+    "../Setu-dataset/raw/vishnupuranam_raw.txt",
+    "../Setu-dataset/raw/GarudaPurana.txt"
+]
 
-for stream_name in ("stdout", "stderr"):
-    stream = getattr(sys, stream_name, None)
-    if stream is not None and hasattr(stream, "reconfigure"):
-        stream.reconfigure(encoding="utf-8", errors="replace")
+ABRAHAMIC_BOOKS = [
+    "../Setu-dataset/raw/king_james_bible_raw.txt",
+    "../Setu-dataset/raw/quran_raw.txt",
+    "../Setu-dataset/raw/berakhot.txt",
+    "../Setu-dataset/raw/josephus_antiquities_raw.txt",
+    "../Setu-dataset/raw/josephus_wars_raw.txt",
+    "../Setu-dataset/raw/legend_of_the_jews_raw.txt"
+]
 
-# 1. Absolute location of the engine repository root (Setu/Setu-engine)
-ENGINE_ROOT = Path(__file__).resolve().parent   
-
-# 2. Path to your local mapping registry schema
-REGISTRY_PATH = ENGINE_ROOT / "alias mapping" / "mapping.json"
-
-# 3. Path to your side-by-side licensing dataset repo (Setu/Setu-dataset)
-DATASET_ROOT = ENGINE_ROOT.parent / "Setu-dataset"
-
-# Keep the co-occurrence graph readable by default.
+# Hyperparameters for Co-occurrence Extraction
 WINDOW_SIZE = 80
 STRIDE = 80
 MIN_EDGE_WEIGHT = 3
 MAX_NEIGHBORS_PER_NODE = 6
 
+# Strict Global Ignore-List for Translation Metadata and Cross-Cultural Bleeding
+METADATA_IGNORE_LIST = {
+    "John", "Ptolemy", "Jesus", "Ralph", "Griffith", "Translation", 
+    "Book", "Chapter", "Verse", "Preface", "Introduction", "Appendix",
+    "Sutradhara", "Translator", "Commentary", "Yahweh"
+}
+
+
+def load_mapping_engine(mapping_path: str) -> dict:
+    """Loads entity dictionary mapping file."""
+    if not os.path.exists(mapping_path):
+        print(f"⚠️ Warning: Mapping file not found at {mapping_path}. Using empty mapping.")
+        return {}
+    with open(mapping_path, "r", encoding="utf-8") as f:
+        registry_data = json.load(f)
+
+    normalized_engine = {}
+
+    if isinstance(registry_data, dict):
+        entities = registry_data.get("entities", [])
+    elif isinstance(registry_data, list):
+        entities = registry_data
+    else:
+        return {}
+
+    for entity in entities:
+        if not isinstance(entity, dict):
+            continue
+
+        canonical_name = entity.get("canonical_name") or entity.get("name")
+        if not canonical_name:
+            continue
+
+        aliases = entity.get("aliases", [])
+        if isinstance(aliases, str):
+            aliases = [aliases]
+
+        normalized_engine[canonical_name] = {"aliases": list(aliases)}
+
+    return normalized_engine
+
+
+def clean_and_tokenize(text: str) -> list[str]:
+    """Cleans punctuation and returns tokenized word streams."""
+    text = re.sub(r'[^\w\s]', ' ', text)
+    return text.strip().split()
+
+
+def extract_entities_from_window(window_tokens: list[str], engine: dict) -> set[str]:
+    """Matches text tokens against canonical entity keys and aliases."""
+    found_entities = set()
+    window_string = " " + " ".join(window_tokens) + " "
+    
+    for canonical_name, data in engine.items():
+        aliases = data.get("aliases", [])
+        # Check canonical name match
+        if re.search(r'\b' + re.escape(canonical_name) + r'\b', window_string, re.IGNORECASE):
+            found_entities.add(canonical_name)
+            continue
+        # Check alias matches
+        for alias in aliases:
+            if alias.strip() and re.search(r'\b' + re.escape(alias) + r'\b', window_string, re.IGNORECASE):
+                found_entities.add(canonical_name)
+                break
+                
+    return found_entities
+
+
+def generate_edge_list(text_paths: list[str], engine: dict, window_size: int, stride: int) -> pd.DataFrame:
+    """Parses books via sliding window to calculate directional co-occurrence weights."""
+    co_occurrences = {}
+    
+    for path in text_paths:
+        if not os.path.exists(path):
+            print(f"Skipping missing text file: {path}")
+            continue
+            
+        print(f"Processing text stream: {path}")
+        with open(path, "r", encoding="utf-8") as f:
+            tokens = clean_and_tokenize(f.read())
+            
+        for i in range(0, len(tokens) - window_size + 1, stride):
+            window = tokens[i:i + window_size]
+            entities = extract_entities_from_window(window, engine)
+            
+            if len(entities) > 1:
+                sorted_entities = sorted(list(entities))
+                for idx, source in enumerate(sorted_entities):
+                    for target in sorted_entities[idx+1:]:
+                        edge = (source, target)
+                        co_occurrences[edge] = co_occurrences.get(edge, 0) + 1
+                        
+    edge_data = []
+    for (src, tgt), w in co_occurrences.items():
+        edge_data.append({"Source": src, "Target": tgt, "Weight": w})
+        
+    return pd.DataFrame(edge_data)
+
 
 def prune_edges_for_legibility(df_edges: pd.DataFrame) -> pd.DataFrame:
-    """Keep only the strongest edges so the exported graph stays readable."""
-
+    """Applies localized degree constraints to filter out multi-text graph clutter."""
     if df_edges.empty:
         return df_edges
 
@@ -38,7 +140,7 @@ def prune_edges_for_legibility(df_edges: pd.DataFrame) -> pd.DataFrame:
     if df_pruned.empty:
         return df_pruned
 
-    kept_indices: set[int] = set()
+    kept_indices = set()
 
     for node_col, other_col in (("Source", "Target"), ("Target", "Source")):
         ranked = (
@@ -58,162 +160,146 @@ def prune_edges_for_legibility(df_edges: pd.DataFrame) -> pd.DataFrame:
     return df_pruned
 
 
-def process_cultural_macro_graph(culture_name: str, raw_filenames: list[str]):
-    print(f"\n==================================================")
-    print(f"🚀 STARTING MACRO PIPELINE RUN FOR CULTURE: {culture_name.upper()}")
-    print(f"==================================================")
-    print(f"Pipeline status: STARTED for {culture_name}")
-    
-    # Inputs are read directly from your Setu-dataset/raw folder
-    raw_dir = DATASET_ROOT / "raw"
-    
-    # Outputs are written out into your managed Setu-dataset workspace
-    cleaned_output_path = DATASET_ROOT / "cleaned" / f"{culture_name}_master_cleaned.txt"
-    edges_output = DATASET_ROOT / "output" / "edges" / f"{culture_name}_edges.csv"
-    nodes_output = DATASET_ROOT / "output" / "nodes" / f"{culture_name}_nodes.csv"
-    gexf_output = DATASET_ROOT / "output" / "graphs" / f"{culture_name}.gexf"
-    
-    # Ensure asset output subdirectories exist in the Setu-dataset folder
-    os.makedirs(DATASET_ROOT / "cleaned", exist_ok=True)
-    os.makedirs(DATASET_ROOT / "output" / "edges", exist_ok=True)
-    os.makedirs(DATASET_ROOT / "output" / "nodes", exist_ok=True)
-    os.makedirs(DATASET_ROOT / "output" / "graphs", exist_ok=True)
+def compute_eigenvector_centrality_safe(graph: nx.Graph, weight: str = "Weight") -> dict[str, float]:
+    """Computes eigenvector centrality on a connected subgraph and zero-fills the rest."""
+    if graph.number_of_nodes() == 0:
+        return {}
 
-    # 4. Sequential Ingestion & In-Memory Preprocessing
-    combined_cleaned_chunks = []
+    if graph.number_of_nodes() == 1:
+        node = next(iter(graph.nodes()))
+        return {node: 1.0}
+
+    if nx.is_connected(graph):
+        try:
+            return nx.eigenvector_centrality_numpy(graph, weight=weight)
+        except nx.AmbiguousSolution:
+            pass
+
+    centrality = {node: 0.0 for node in graph.nodes()}
+    largest_component = max(nx.connected_components(graph), key=len)
+    component_graph = graph.subgraph(largest_component).copy()
+
+    if component_graph.number_of_nodes() == 1:
+        node = next(iter(component_graph.nodes()))
+        centrality[node] = 1.0
+        return centrality
+
+    if component_graph.number_of_nodes() < 3:
+        component_centrality = nx.eigenvector_centrality(component_graph, weight=weight, max_iter=1000)
+    else:
+        component_centrality = nx.eigenvector_centrality_numpy(component_graph, weight=weight)
+
+    centrality.update(component_centrality)
+    return centrality
+
+
+def process_cultural_macro_graph(cluster_name: str, book_list: list[str]):
+    """Executes full network processing and mathematical transformations for a cluster."""
+    print(f"\n==========================================")
+    print(f"🏃 Starting Engine Pass: {cluster_name.upper()} CLUSTER")
+    print(f"==========================================")
     
-    for filename in raw_filenames:
-        target_file_path = raw_dir / filename
-        if not target_file_path.exists():
-            print(f"⚠️ Skipping missing source file: {target_file_path}")
-            continue
-            
-        print(f"Ingesting and cleaning: {filename}...")
-        with open(target_file_path, "r", encoding="utf-8") as handle:
-            raw_content = handle.read()
-            # Clean each file individually before merging to strip headers cleanly
-            cleaned_chunk = clean_text(raw_content)
-            combined_cleaned_chunks.append(cleaned_chunk)
-            
-    if not combined_cleaned_chunks:
-        print(f"❌ Error: No text content loaded for culture {culture_name}. Halting pass.")
-        print(f"Pipeline status: FAILED for {culture_name}")
+    mapping_path = os.path.join("alias mapping", "mapping.json")
+    nodes_output = f"../Setu-dataset/output/metrics/{cluster_name}_nodes.csv"
+    edges_output = f"../Setu-dataset/output/metrics/{cluster_name}_edges.csv"
+    gexf_output = f"../Setu-dataset/output/graphs/{cluster_name}_topology.gexf"
+
+    # 1. Load Mappings
+    engine = load_mapping_engine(mapping_path)
+    
+    # 2. Extract Raw Edges
+    df_raw_edges = generate_edge_list(book_list, engine, WINDOW_SIZE, STRIDE)
+    
+    # 3. Apply Localized Degree Constraints (Pruning)
+    df_pruned_edges = prune_edges_for_legibility(df_raw_edges)
+    
+    if df_pruned_edges.empty:
+        print(f"❌ Error: No structural relationships remained for {cluster_name} cluster.")
         return
         
-    # Combine individual cleaned texts using strict double-newlines
-    master_cleaned_text = "\n\n".join(combined_cleaned_chunks)
-    
-    # Cache the consolidated text to disk for verification
-    with open(cleaned_output_path, "w", encoding="utf-8") as handle:
-        handle.write(master_cleaned_text)
-    print(f"💾 Consolidated cultural master text cached at: {cleaned_output_path}")
-
-    # 5. Entity Extraction Matrix Loop
-    engine = EntityExtractionEngine(str(REGISTRY_PATH))
-    print("Pipeline status: ENTITY EXTRACTION INITIALIZED")
-    df_edges = generate_edge_list(master_cleaned_text, engine, window_size=WINDOW_SIZE, stride=STRIDE)
-    
-    if df_edges.empty:
-        print(f"⚠️ Warning: No edges generated for {culture_name}. Check mapping coverage.")
-        print(f"Pipeline status: COMPLETED WITH NO EDGES for {culture_name}")
-        return
-
-    df_edges = prune_edges_for_legibility(df_edges)
-
-    if df_edges.empty:
-        print(f"⚠️ Warning: All candidate edges were filtered out for {culture_name}.")
-        print(f"Pipeline status: COMPLETED WITH NO EDGES for {culture_name}")
-        return
-
-    df_edges.to_csv(edges_output, index=False)
-    print(
-        f"📦 Pruned Edge Matrix exported successfully: {edges_output} "
-        f"(min_weight={MIN_EDGE_WEIGHT}, max_neighbors_per_node={MAX_NEIGHBORS_PER_NODE})"
-    )
-
-    # 6. Compute Network Metrics via NetworkX
-    print("Building Graph Objects for Structural Topology...")
-    
-    # Step A: Capture the absolute master pool of unique nodes BEFORE filtering
-    master_nodes = set(df_edges["Source"]).union(set(df_edges["Target"]))
-    print(f"Master node registry contains {len(master_nodes)} unique entities.")
-    
-    # Step B: Initialize an empty Graph object and explicitly force the master node pool
+    # 4. Construct Topological Graph Object
     G = nx.Graph()
-    G.add_nodes_from(master_nodes)
+    G.add_edges_from(zip(df_pruned_edges["Source"], df_pruned_edges["Target"]))
     
-    # Step C: Append the pruned edges to the graph
-    G.add_edges_from(zip(df_edges["Source"], df_edges["Target"]))
-    
-    # Re-apply edge attributes for centrality calculations
-    for _, row in df_edges.iterrows():
+    # Load Weights back into NetworkX edges for analytics
+    for _, row in df_pruned_edges.iterrows():
         G[row["Source"]][row["Target"]]["Weight"] = row["Weight"]
+        
+    print(f"Constructed raw graph mapping with {G.number_of_nodes()} nodes and {G.number_of_edges()} edges.")
     
-    print("Computing Centrality Vectors...")
+    # 5. Compute Advanced Network Analytics
     degree_centrality = nx.degree_centrality(G)
     betweenness_centrality = nx.betweenness_centrality(G, weight="Weight")
-    try:
-        eigenvector_centrality = nx.eigenvector_centrality_numpy(G, weight="Weight")
-        print("Eigenvector centrality: SciPy/Numpy fast path")
-    except ModuleNotFoundError:
-        print("Eigenvector centrality: SciPy missing, using pure-Python fallback")
-        eigenvector_centrality = nx.eigenvector_centrality(G, weight="Weight", max_iter=1000)
-    except Exception as exc:
-        print(f"Eigenvector centrality: fallback after fast-path failure ({exc})")
-        eigenvector_centrality = nx.eigenvector_centrality(G, weight="Weight", max_iter=1000)
+    eigenvector_centrality = compute_eigenvector_centrality_safe(G, weight="Weight")
+    community_map = community_louvain.best_partition(G, weight="Weight")
     
-    print("Executing Modularity Clustering (Louvain)...")
-    communities = nx.community.louvain_communities(G, weight="Weight")
-    
-    community_map = {}
-    for comm_idx, comm_set in enumerate(communities):
-        for node in comm_set:
-            community_map[node] = comm_idx
-
-    # 7. Export Analytical Results
+    # 6. Build Clean Node Matrix with Macro-Quality Filtering
     node_data = []
-    for node in G.nodes():
+    for node in list(G.nodes()):
+        # Filter A: Stop-list for metatranslator contamination
+        if node in METADATA_IGNORE_LIST:
+            continue
+            
+        # Filter B: Remove isolated fable characters with low structural footprints
+        if degree_centrality.get(node, 0) < 0.04:
+            continue
+            
         node_data.append({
-            "Id": node,
+            "Id": node,       # Capitalized for Gephi auto-detection
             "Label": node,
             "DegreeCentrality": degree_centrality.get(node, 0),
             "BetweennessCentrality": betweenness_centrality.get(node, 0),
             "EigenvectorCentrality": eigenvector_centrality.get(node, 0),
-            "CommunityID": f"Faction_{community_map.get(node, 0)}"
+            "CommunityID": community_map.get(node, 0) # Keeps integer value for numeric ranking colors
         })
         
+    # 7. Safe Structural Variable Export (Fixed Namespace Collision Bug)
     df_nodes_output = pd.DataFrame(node_data)
-    df_nodes_output.to_csv(nodes_output, index=False)
-    print(f"📦 Consolidated Node Sheet exported successfully: {nodes_output}")
+    active_node_ids = set(df_nodes_output["Id"])
     
-    nx.write_gexf(G, gexf_output)
-    print(f"🎨 Gephi Network Map exported: {gexf_output}")
-    print(f"Finished processing for macro culture: {culture_name}.\n")
-    print(f"Pipeline status: COMPLETED successfully for {culture_name}")
+    # Clean the edge list to remove references to filtered nodes
+    df_edges_output = df_pruned_edges[
+        df_pruned_edges["Source"].isin(active_node_ids) & 
+        df_pruned_edges["Target"].isin(active_node_ids)
+    ]
+    
+    # Ensure folders exist
+    os.makedirs("../Setu-dataset/output/metrics", exist_ok=True)
+    os.makedirs("../Setu-dataset/output/graphs", exist_ok=True)
+    
+    # Save CSV Data Assets
+    df_nodes_output.to_csv(nodes_output, index=False)
+    df_edges_output.to_csv(edges_output, index=False)
+    
+    # 8. Compile Comprehensive All-In-One GEXF Graph Architecture
+    G_clean = nx.Graph()
+    for _, row in df_nodes_output.iterrows():
+        G_clean.add_node(
+            row["Id"],
+            label=row["Label"],
+            DegreeCentrality=float(row["DegreeCentrality"]),
+            BetweennessCentrality=float(row["BetweennessCentrality"]),
+            EigenvectorCentrality=float(row["EigenvectorCentrality"]),
+            CommunityID=int(row["CommunityID"])
+        )
+        
+    for _, row in df_edges_output.iterrows():
+        G_clean.add_edge(row["Source"], row["Target"], weight=float(row["Weight"]))
+        
+    nx.write_gexf(G_clean, gexf_output)
+    
+    print(f"📦 Consolidated Node Sheet exported successfully: {nodes_output} ({len(df_nodes_output)} nodes)")
+    print(f"🔗 Consolidated Edge Sheet exported successfully: {edges_output} ({len(df_edges_output)} edges)")
+    print(f"XML Graph Architecture compiled successfully: {gexf_output}")
 
 
 if __name__ == "__main__":
-    # 1. Indic Cultural Cluster
-    INDIC_BOOKS = [
-        "mahabharata.txt",
-        "ramayana_raw.txt",
-        "bhagavad_gita_raw.txt",
-        "rig-veda-griffith-p.txt",
-        "vishnupuranam_raw.txt",
-        "GarudaPurana.txt",
-        "Panchatantra.txt"
-    ]
+    # Create output directories if missing
+    os.makedirs("../Setu-dataset/output/metrics", exist_ok=True)
+    os.makedirs("../Setu-dataset/output/graphs", exist_ok=True)
     
-    # 2. Abrahamic / Levantine Cultural Cluster
-    ABRAHAMIC_BOOKS = [
-        "king_james_bible_raw.txt",
-        "quran_raw.txt",
-        "FullTalmud.txt",
-        "josephus_antiquities_raw.txt",
-        "josephus_wars_raw.txt",
-        "legend_of_the_jews_raw.txt"
-    ]
-    
-    # Execute batch production compiles
+    # Execute Pipeline Runs across both Cultural Spheres
     process_cultural_macro_graph("indic", INDIC_BOOKS)
     process_cultural_macro_graph("abrahamic", ABRAHAMIC_BOOKS)
+    
+    print("\n🚀 All Pipeline runs completed successfully. Optimization complete.")

@@ -7,7 +7,7 @@ ENGINE_ROOT = Path(__file__).resolve().parent.parent.parent
 DATASET_ROOT = ENGINE_ROOT.parent / "Setu-dataset"
 
 def generate_network_report(culture_name: str):
-    edges_path = DATASET_ROOT / "output" / "edges" / f"{culture_name}_edges.csv"
+    edges_path = DATASET_ROOT / "output" /"metrics"/ f"{culture_name}_edges.csv"
     
     if not edges_path.exists():
         print(f"❌ Error: Matrix file missing at {edges_path}")
