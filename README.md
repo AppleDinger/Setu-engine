@@ -4,18 +4,44 @@ Setu Engine is a reusable network analytics engine for turning long-form text in
 
 This project demonstrates text mining, entity normalization, graph construction, network science, GPU-aware NLP, and analytical export pipelines for Gephi and downstream review.
 
-## Index
+**Output/Dataset** repo link https://github.com/AppleDinger/Setu-dataset
 
-1. [Overview](#overview)
-2. [How To Run](#how-to-run)
-3. [Helper Tools](#helper-tools)
-4. [Project Purpose](#project-purpose)
+## Index
+1. [Tech And Features](#tech-and-features)
+2. [Case Study](#case-study)
+3. [How To Run](#how-to-run)
+4. [Helper Tools](#helper-tools)
 5. [Results](#results)
 6. [Other Uses](#other-uses)
-7. [Tech And Features](#tech-and-features)
-8. [Notes](#notes)
+7. [Notes](#notes)
 
-## Overview
+## Tech And Features
+
+This project uses a focused stack for text analytics and graph science:
+
+- Python for the end-to-end pipeline
+- spaCy for entity extraction and NLP orchestration
+- EntityRuler-based canonical matching for deterministic alias resolution
+- Sliding-window co-occurrence logic for relationship mining
+- Weighted edge construction from repeated co-mentions
+- NetworkX for graph metrics and community detection
+- Louvain clustering for modularity-based grouping
+- GEXF export for Gephi visualization
+- Optional GPU acceleration through spaCy / CuPy / PyTorch CUDA support
+- Cleaning utilities that remove front matter, verse markers, and other noisy text artifacts
+- Test scripts that verify preprocessing and matrix generation behavior
+
+Core analytical ideas used here include:
+
+- Named entity normalization
+- Canonical identity merging
+- Sliding-window graph extraction
+- Degree, betweenness, and eigenvector centrality
+- Connectivity and community structure comparison
+- Readable graph pruning for presentation and visualization
+
+  
+## Case Study
 
 Setu Engine compares the internal social networks of Indic and Abrahamic source traditions by extracting named entities from books, connecting co-mentioned entities into weighted edges, and measuring structure through degree centrality, betweenness centrality, eigenvector centrality, and community detection. More importantly, it is designed as a general-purpose engine I built for network extraction and structural comparison across domains.
 
@@ -122,11 +148,6 @@ The file `alias mapping/mapping.json` is the main identity registry. It maps var
 
 The repository also includes optional post-processing utilities such as `faction_resolution.py` and `src/analytics/print_summary.py` for working with community labels and structural summaries. These helpers are useful when you want to layer extra analysis on top of the exported graph data.
 
-## Project Purpose
-
-This engine was built to compare social networks inside Indic and Abrahamic books by converting narrative co-occurrence into graph structure. The analysis focuses on how often entities appear together, which figures become central, how communities form, and whether one tradition shows different connectivity patterns than the other.
-
-The intended comparison is not only about counts. It is about structure: who sits at the center, which names bridge communities, where dense clusters appear, and how the topology changes across corpora from different cultural worlds.
 
 ## Results
 
@@ -155,7 +176,7 @@ Use this section as a placeholder for your final findings, Gephi screenshots, ex
 - Top betweenness nodes
 - Top eigenvector nodes
 
-## Where Else It Can Be Used
+## Other Uses
 
 With small changes to the source texts, canonical registry, and extraction rules, this engine can be reused for:
 
@@ -169,37 +190,13 @@ With small changes to the source texts, canonical registry, and extraction rules
 - Translation comparison across multiple editions of the same text
 - Organizational or knowledge-graph style co-occurrence analysis
 
-## Tech And Features
 
-This project uses a focused stack for text analytics and graph science:
-
-- Python for the end-to-end pipeline
-- spaCy for entity extraction and NLP orchestration
-- EntityRuler-based canonical matching for deterministic alias resolution
-- Sliding-window co-occurrence logic for relationship mining
-- Weighted edge construction from repeated co-mentions
-- NetworkX for graph metrics and community detection
-- Louvain clustering for modularity-based grouping
-- GEXF export for Gephi visualization
-- Optional GPU acceleration through spaCy / CuPy / PyTorch CUDA support
-- Cleaning utilities that remove front matter, verse markers, and other noisy text artifacts
-- Test scripts that verify preprocessing and matrix generation behavior
-
-Core analytical ideas used here include:
-
-- Named entity normalization
-- Canonical identity merging
-- Sliding-window graph extraction
-- Degree, betweenness, and eigenvector centrality
-- Connectivity and community structure comparison
-- Readable graph pruning for presentation and visualization
 
 ## Notes
 
-- Keep `alias mapping/mapping.json` in sync with the names you expect to study, otherwise the same figure may appear as multiple nodes.
+- Keep `mapping.json` from the dataset repo in sync with the names you expect to study, otherwise the same figure may appear as multiple nodes.
 - Re-run the helper name finder after adding a new corpus or translation.
 - Large corpora can create very dense graphs, so adjust window size, stride, and pruning thresholds carefully.
 - For Gephi work, open the exported `.gexf` file from `Setu-dataset/output/graphs/`.
 - If spaCy GPU initialization fails, the pipeline falls back to CPU mode.
 - The best results come from clean source texts, consistent canonical naming, and a mapping registry that is reviewed by hand.
-- For recruiters, the strongest framing is that this is an engine for network extraction, not just a one-off cultural comparison project.
