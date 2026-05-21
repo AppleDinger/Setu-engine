@@ -46,6 +46,31 @@ The goal is to contrast connectedness, centrality, clustering, and overall netwo
 
 The active pipeline lives in `run_pipeline.py`. It expects a sibling dataset workspace named `Setu-dataset` next to this repository, with raw texts available under `Setu-dataset/raw/`.
 
+### A. Automatic Way
+
+Run the setup script from a Bash-compatible shell.
+
+By default, Unix-based operating systems (Linux, macOS, or Git Bash for Windows) block newly created scripts from executing as a security measure. Before running the setup script, make it executable.
+
+```bash
+chmod +x setup.sh
+```
+
+This changes the file mode so the script can run as an executable instead of a plain text file.
+
+```bash
+./setup.sh
+```
+
+The script creates a `.venv`, installs dependencies, downloads the spaCy model used by the setup flow, and ensures the sibling `Setu-dataset` workspace exists. After it finishes, activate the environment and run the pipeline.
+
+```bash
+source .venv/bin/activate
+python run_pipeline.py
+```
+
+### B. Manual Way
+
 1. Create and activate a virtual environment.
 
 ```powershell
