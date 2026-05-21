@@ -34,9 +34,9 @@ MAX_NEIGHBORS_PER_NODE = 6
 
 # Strict Global Ignore-List for Translation Metadata and Cross-Cultural Bleeding
 METADATA_IGNORE_LIST = {
-    "John", "Ptolemy", "Jesus", "Ralph", "Griffith", "Translation", 
+    "John", "Ptolemy", "Ralph", "Griffith", "Translation", 
     "Book", "Chapter", "Verse", "Preface", "Introduction", "Appendix",
-    "Sutradhara", "Translator", "Commentary", "Yahweh"
+    "Sutradhara", "Translator", "Commentary",
 }
 
 

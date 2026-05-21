@@ -84,6 +84,8 @@ python run_pipeline.py
 
 The run produces cleaned master texts, edge lists, node sheets, and `.gexf` graph files under `Setu-dataset/cleaned/` and `Setu-dataset/output/`.
 
+After `run_pipeline.py` finishes, open the exported `.gexf` file in Gephi or another graphing tool to actually construct, style, and inspect the network visualization.
+
 If you want to use the sample files shipped in this repository under `data/raw/`, update `DATASET_ROOT` in `run_pipeline.py` accordingly before running.
 
 ## Helper Tools
@@ -115,8 +117,10 @@ These checks cover text cleaning, sliding-window behavior, and edge aggregation 
 
 The file `alias mapping/mapping.json` is the main identity registry. It maps variant spellings and aliases to one canonical figure so the graph does not split the same person across multiple nodes.
 
-### Faction Resolution
-The file faction_resolution.py is used to merge factions identified by Louvain into more cohesive groups for data analysis
+
+### Post-Processing Helpers
+
+The repository also includes optional post-processing utilities such as `faction_resolution.py` and `src/analytics/print_summary.py` for working with community labels and structural summaries. These helpers are useful when you want to layer extra analysis on top of the exported graph data.
 
 ## Project Purpose
 
