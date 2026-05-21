@@ -40,6 +40,65 @@ Core analytical ideas used here include:
 - Connectivity and community structure comparison
 - Readable graph pruning for presentation and visualization
 
+### Technical Pipeline Architecture
+```mermaid
+graph TD
+    %% Define Styles 
+    classDef source fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000000;
+    classDef process fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#000000;
+    classDef nlp fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#000000;
+    classDef network fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000000;
+    classDef export fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000000;
+
+    %% Raw Data Ingestion
+    subgraph Data_Ingestion [1. Data Ingestion & Prep]
+        A1[Indic Source Texts] --> B[Text Preprocessing]
+        A2[Abrahamic Source Texts] --> B
+        B -->|Remove front matter, verse markers & noise| C[Cleaned Master Texts]
+    end
+    class A1,A2,C source;
+    class B process;
+
+    %% NLP Processing Pipeline
+    subgraph NLP_Pipeline [2. GPU-Aware NLP & Entity Resolution]
+        C --> D[spaCy Pipeline Orchestration]
+        E[mapping.json Identity Registry] --> F[EntityRuler Canonical Matching]
+        D --> F
+        F -->|Named Entity Normalization & Alias Merging| G[Resolved & Normalized Entities]
+    end
+    class D,F nlp;
+    class E,G source;
+
+    %% Graph Mining
+    subgraph Graph_Mining [3. Network Relationship Mining]
+        G --> H[Sliding-Window Co-occurrence Logic]
+        H -->|Extract overlapping relationship windows| I[Weighted Edge Construction]
+        I -->|Based on repeated co-mentions| J[NetworkX Engine Integration]
+    end
+    class H,I process;
+    class J network;
+
+    %% Network Science Analytics
+    subgraph Analytics [4. Network Science & Analytics]
+        J --> K[Louvain Clustering / Modularity]
+        J --> L[Centrality Metrics Computations]
+        L --> L1[Degree Centrality]
+        L --> L2[Betweenness Centrality]
+        L --> L3[Eigenvector Centrality]
+        K --> M[Readable Graph Pruning & Filtering]
+        L1 & L2 & L3 --> M
+    end
+    class K,L,L1,L2,L3,M network;
+
+    %% Output Pipeline
+    subgraph Export_Pipeline [5. Analytical Export Pipeline]
+        M --> N[Node Sheets & Edge Lists]
+        M --> O[.GEXF Graph Files Export]
+        O --> P[Gephi Downstream Visual Review]
+    end
+    class N,O export;
+    class P process;
+```
   
 ## Case Study
 
