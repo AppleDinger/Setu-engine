@@ -1,3 +1,8 @@
+"note":{
+  "To": "This is a note for developers.",
+  "message": "This file is used just to keep treack of aliases while using name_finder.py . The actual aliasing is done through the Setu-dataset repo. Make sure to copy the contents of this file into Setu-dataset repo"
+}
+
 {
   "entities": [
     {
