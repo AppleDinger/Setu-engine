@@ -8,9 +8,9 @@ This project demonstrates text mining, entity normalization, graph construction,
 
 ## Index
 1. [Tech And Features](#tech-and-features)
-2. [Case Study](#case-study)
-3. [How To Run](#how-to-run)
-4. [Helper Tools](#helper-tools)
+2. [How To Run](#how-to-run)
+3. [Helper Tools](#helper-tools)
+4. [Case Study](#case-study)
 5. [Results](#results)
 6. [Other Uses](#other-uses)
 7. [Notes](#notes)
@@ -39,34 +39,6 @@ Core analytical ideas used here include:
 - Degree, betweenness, and eigenvector centrality
 - Connectivity and community structure comparison
 - Readable graph pruning for presentation and visualization
-
-  
-## Case Study
-
-Setu Engine compares the internal social networks of Indic and Abrahamic source traditions by extracting named entities from books, connecting co-mentioned entities into weighted edges, and measuring structure through degree centrality, betweenness centrality, eigenvector centrality, and community detection. More importantly, it is designed as a general-purpose engine I built for network extraction and structural comparison across domains.
-
-The current corpus used by the main pipeline is:
-
-Indic sources:
-
-- Mahabharata
-- Ramayana
-- Bhagavad Gita
-- Rig Veda
-- Vishnu Purana
-- Garuda Purana
-- Panchatantra
-
-Abrahamic sources:
-
-- King James Bible
-- Quran
-- Full Talmud
-- Josephus Antiquities
-- Josephus Wars
-- Legend of the Jews
-
-The goal is to contrast connectedness, centrality, clustering, and overall network shape across the two cultural groups.
 
 ## How To Run
 
@@ -174,32 +146,101 @@ The file `alias mapping/mapping.json` is the main identity registry. It maps var
 The repository also includes optional post-processing utilities such as `faction_resolution.py` and `src/analytics/print_summary.py` for working with community labels and structural summaries. These helpers are useful when you want to layer extra analysis on top of the exported graph data.
 
 
+## Case Study
+
+Setu Engine compares the internal social networks of Indic and Abrahamic source traditions by extracting named entities from books, connecting co-mentioned entities into weighted edges, and measuring structure through degree centrality, betweenness centrality, eigenvector centrality, and community detection. More importantly, it is designed as a general-purpose engine I built for network extraction and structural comparison across domains.
+
+The current corpus used by the main pipeline is:
+
+Indic sources:
+
+- Mahabharata
+- Ramayana
+- Bhagavad Gita
+- Rig Veda
+- Vishnu Purana
+- Garuda Purana
+- Panchatantra
+
+Abrahamic sources:
+
+- King James Bible
+- Quran
+- Full Talmud
+- Josephus Antiquities
+- Josephus Wars
+- Legend of the Jews
+
+The goal is to contrast connectedness, centrality, clustering, and overall network shape across the two cultural groups.
+
+
 ## Results
 
-Use this section as a placeholder for your final findings, Gephi screenshots, exported charts, and written observations.
+Results of the Case Study
 
-### Insert Gephi Graphs Here
+### Gephi Graphs
 
-- Indic network graph
-- Abrahamic network graph
-- Side-by-side comparison graph
+#### Indic Network Graph
 
-### Insert Findings Here
+Reference profile: see Figure 3.1 from the study. The layout highlights distinct regional epic and textual factions, such as the Mahabharata and Ramayana clusters, separated by independent narrative boundaries.
 
-- Key high-centrality figures
-- Community structure observations
-- Density and connectivity notes
-- Bridge-node and hub-node observations
+![Indic Network Graph](assets/Indic_Graph.png)
 
-### Insert Stats Here
+#### Abrahamic Network Graph
 
-- Node count
-- Edge count
-- Graph density
-- Average degree
-- Top degree centrality nodes
-- Top betweenness nodes
-- Top eigenvector nodes
+Reference profile: see Figure 4.1 from the study. The layout highlights clear chronological structural continuity and historical successions across a highly unified, generational timeline.
+
+![Abrahamic Network Graph](assets/Abrahamic_Graph.png)
+
+### Findings
+
+1. Key High-Centrality Figures & Theological Modeling
+
+Indic hubs: network structure relies heavily on prominent central narrative hubs such as Krishna, Arjuna, Bhima, Yudhishthira, and Ráma, surrounded by smaller, tightly bound background characters. Theological modeling explicitly maps multiple distinct names, avatars, and contextual roles for divinity.
+
+Abrahamic hubs: characters are evenly distributed across generational successions, including Jesus, Abraham, Moses, and Muhammad. Rather than tracking disparate regional pantheons, the network organizes around a primary shared focal entity, Yahweh/Allah/God, acting as the primary graph anchor.
+
+2. Community Structure Observations
+
+Faction segregation (Indic): faction lines are clearly segregated by independent text traditions, including Vedic, Epic, and Puranic. For instance, the Rig-Vedic pantheonic faction, with Indra, Agni, and Soma, features a dense web of lower relative edge weights compared to the highly integrated, heavy-connection-weight Mahabharata epic faction.
+
+Structural continuity (Abrahamic): boundaries between sub-contexts are fluid. While separate historic spheres exist, such as the Roman administrative faction with Pontius and Porcius, they maintain high levels of cross-referencing and linear structural timeline traces defined by chronological generations.
+
+3. Density and Connectivity Notes
+
+Indic repository: displays a higher overall interconnection rate within its structural canvas ($0.19580$) and roughly double the local clustering probability ($0.0211$) compared to the Abrahamic set. This signals a highly interconnected, recursive, and non-linear cross-referencing pattern within narrative clusters.
+
+Abrahamic repository: features a larger unique entity pool of 110 nodes but a more sparse, linear distribution ($0.12143$ density). This results from its chronological nature, which limits direct interaction paths between figures separated by generations.
+
+### Statistics
+
+The following empirical baseline metrics were calculated with NetworkX and exported to Gephi using matching case-sensitive tabular schemas.
+
+| Topological Vector | Indic Repositories | Abrahamic Repositories | Empirical Distinction |
+| --- | ---: | ---: | --- |
+| DOCX Node Count (Entity Pool) | 78 | 110 | Core vocabulary and unique entity sizes. |
+| Edge Count (Pruned Links) | 588 | 728 | Total validated interaction paths. |
+| Graph Density | 0.19580 | 0.12143 | Interconnection rate across the structural canvas. |
+| Clustering Coefficient | 0.0211 | 0.0095 | Local clustering probability within neighboring factions. |
+| Network Diameter | 3 | 4 | Maximum structural steps between separated entities. |
+| Average Path Length | 1.91 | 2.24 | Average separation distance between any two nodes. |
+
+#### Top Topological Nodes Overview
+
+Top degree centrality hubs:
+
+- Indic: Krishna, Arjuna, Indra, Ráma
+- Abrahamic: Yahweh/Allah/God, Moses, Jesus, Abraham
+
+Top betweenness and bridge nodes:
+
+- Indic: central figures bridging independent text boundaries, such as Vishnu connecting Vedic and Epic clusters
+- Abrahamic: lineal figures connecting chronological eras, such as Jacob, Abraham, and shared baseline entities connecting the Biblical and Islamic factions
+
+Top eigenvector nodes:
+
+- Indic: core members of the tightly interconnected Mahabharata cluster, including Krishna, Arjuna, Bhima, and Yudhishthira
+- Abrahamic: primary central focus nodes and their immediate structural successions within the central cluster
 
 ## Other Uses
 
