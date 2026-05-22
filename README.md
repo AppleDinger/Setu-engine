@@ -99,33 +99,6 @@ graph TD
     class N,O export;
     class P process;
 ```
-  
-## Case Study
-
-Setu Engine compares the internal social networks of Indic and Abrahamic source traditions by extracting named entities from books, connecting co-mentioned entities into weighted edges, and measuring structure through degree centrality, betweenness centrality, eigenvector centrality, and community detection. More importantly, it is designed as a general-purpose engine I built for network extraction and structural comparison across domains.
-
-The current corpus used by the main pipeline is:
-
-Indic sources:
-
-- Mahabharata
-- Ramayana
-- Bhagavad Gita
-- Rig Veda
-- Vishnu Purana
-- Garuda Purana
-- Panchatantra
-
-Abrahamic sources:
-
-- King James Bible
-- Quran
-- Full Talmud
-- Josephus Antiquities
-- Josephus Wars
-- Legend of the Jews
-
-The goal is to contrast connectedness, centrality, clustering, and overall network shape across the two cultural groups.
 
 ## How To Run
 
@@ -263,19 +236,19 @@ The goal is to contrast connectedness, centrality, clustering, and overall netwo
 
 ## Results
 
-Results of the Case Study
+Results of the [Case Study](https://github.com/AppleDinger/Setu-dataset/blob/main/Setu_Study_Results.docx)
 
 ### Gephi Graphs
 
 #### Indic Network Graph
 
-Reference profile: see Figure 3.1 from the study. The layout highlights distinct regional epic and textual factions, such as the Mahabharata and Ramayana clusters, separated by independent narrative boundaries.
+Reference profile: see Figure 3.1 from the [study](https://github.com/AppleDinger/Setu-dataset/blob/main/Setu_Study_Results.docx). The layout highlights distinct regional epic and textual factions, such as the Mahabharata and Ramayana clusters, separated by independent narrative boundaries.
 
 ![Indic Network Graph](assets/Indic_Graph.png)
 
 #### Abrahamic Network Graph
 
-Reference profile: see Figure 4.1 from the study. The layout highlights clear chronological structural continuity and historical successions across a highly unified, generational timeline.
+Reference profile: see Figure 4.1 from the [study](https://github.com/AppleDinger/Setu-dataset/blob/main/Setu_Study_Results.docx). The layout highlights clear chronological structural continuity and historical successions across a highly unified, generational timeline.
 
 ![Abrahamic Network Graph](assets/Abrahamic_Graph.png)
 
